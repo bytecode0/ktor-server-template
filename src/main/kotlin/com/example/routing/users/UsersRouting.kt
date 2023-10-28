@@ -68,7 +68,7 @@ fun Application.configureUsersRouting(
                         )
                     }
                     result.onSuccess {
-                        call.respond(Created, "User password has been created successfully")
+                        call.respond(Created, "User password has been updated successfully")
                     }
                     result.onFailure {
                         if (it is UserException && it.errorCode == 409) {
@@ -87,5 +87,23 @@ fun Application.configureUsersRouting(
 }
 
 @Serializable
-@Resource("/articles")
-class Articles(val sort: String? = "new")
+data class UserResponse(
+    val userId: String,
+    val username: String,
+    val email: String,
+    val profilePicture: String
+)
+
+@Serializable
+data class CreateUserRequest(
+    val username: String,
+    val email: String,
+    val password: String
+)
+
+@Serializable
+data class UpdatePasswordRequest(
+    val userId: String,
+    val currentPassword: String,
+    val newPassword: String
+)

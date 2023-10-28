@@ -3,21 +3,23 @@ package com.example.domain.entities
 import java.util.UUID
 
 sealed class Entity(
+    open val entityId: UUID,
     open val createdAt: Long
 ) {
     data class ProjectEntity(
-        private val projectId: Int,
+        override val entityId: UUID,
         override val createdAt: Long,
-        private val createdBy: com.example.domain.entities.UserEntity,
-        private val title: String,
-        private val description: String,
-        private val members: List<com.example.domain.entities.UserEntity> = listOf(),
-        private val tasks: List<TaskEntity> = listOf()
-    ): Entity(createdAt)
+        internal val createdBy: UserEntity,
+        internal val title: String,
+        internal val description: String,
+        internal val members: List<UserEntity> = listOf(),
+        internal val tasks: List<TaskEntity> = listOf()
+    ): Entity(entityId, createdAt)
 
     data class TaskEntity(
-        private val taskId: Int,
+        override val entityId: UUID,
         override val createdAt: Long,
+        private val taskId: Int,
         private val completionAt: Long,
         private val deadline: Long,
         private val createdBy: com.example.domain.entities.UserEntity,
@@ -28,24 +30,25 @@ sealed class Entity(
         private val status: Status,
         private val subTasks: List<SubTaskEntity> = listOf(),
         private val comments: List<CommentEntity> = listOf()
-    ): Entity(createdAt)
+    ): Entity(entityId, createdAt)
 
     data class SubTaskEntity(
-        private val subTaskId: Int,
+        override val entityId: UUID,
         override val createdAt: Long,
+        private val subTaskId: Int,
         private val taskId: Int,
         private val assignedTo: Int,
         private val content: String,
         private val comments: List<CommentEntity> = listOf()
-    ): Entity(createdAt)
+    ): Entity(entityId, createdAt)
 
     data class CommentEntity(
-        private val commentId: Int,
+        override val entityId: UUID,
         override val createdAt: Long,
         private val taskId: Int,
         private val userId: Int,
         private val content: String
-    ): Entity(createdAt)
+    ): Entity(entityId, createdAt)
 }
 
 data class UserEntity(
