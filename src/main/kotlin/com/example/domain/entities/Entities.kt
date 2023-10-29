@@ -19,17 +19,16 @@ sealed class Entity(
     data class TaskEntity(
         override val entityId: UUID,
         override val createdAt: Long,
-        private val taskId: Int,
-        private val completionAt: Long,
-        private val deadline: Long,
-        private val createdBy: com.example.domain.entities.UserEntity,
-        private val assignedTo: Int,
-        private val title: String,
-        private val description: String,
-        private val priority: Priority,
-        private val status: Status,
-        private val subTasks: List<SubTaskEntity> = listOf(),
-        private val comments: List<CommentEntity> = listOf()
+        internal val completionAt: Long,
+        internal val deadline: Long,
+        internal val userId: UUID,
+        internal val assignedTo: UUID,
+        internal val title: String,
+        internal val description: String,
+        internal val priority: Priority,
+        internal val status: Status,
+        internal val subTasks: List<SubTaskEntity> = listOf(),
+        internal val comments: List<CommentEntity> = listOf()
     ): Entity(entityId, createdAt)
 
     data class SubTaskEntity(
@@ -68,7 +67,7 @@ data class NotificationEntity(
     private val entityRelated: Entity
 )
 
-enum class Priority { High, Low, OnHold }
+enum class Priority { High, Low, Medium, None }
 
 enum class Status { Completed, InProgress, OnHold, Canceled }
 

@@ -3,18 +3,19 @@ package com.example.routing.users
 import com.example.domain.exceptions.UserException
 import com.example.domain.services.CreateUserService
 import com.example.domain.services.UpdateUserPasswordService
+import com.example.routing.CreateUserRequest
 import com.example.routing.ExceptionResponse
+import com.example.routing.UpdatePasswordRequest
+import com.example.routing.UserResponse
 import io.ktor.http.HttpStatusCode.Companion.BadRequest
 import io.ktor.http.HttpStatusCode.Companion.Conflict
 import io.ktor.http.HttpStatusCode.Companion.Created
 import io.ktor.http.HttpStatusCode.Companion.InternalServerError
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.Serializable
 
 fun Application.configureUsersRouting(
     createUserService: CreateUserService,
@@ -85,25 +86,3 @@ fun Application.configureUsersRouting(
         }
     }
 }
-
-@Serializable
-data class UserResponse(
-    val userId: String,
-    val username: String,
-    val email: String,
-    val profilePicture: String
-)
-
-@Serializable
-data class CreateUserRequest(
-    val username: String,
-    val email: String,
-    val password: String
-)
-
-@Serializable
-data class UpdatePasswordRequest(
-    val userId: String,
-    val currentPassword: String,
-    val newPassword: String
-)
