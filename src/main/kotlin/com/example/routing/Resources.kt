@@ -1,7 +1,5 @@
 package com.example.routing
 
-import com.example.domain.entities.Priority
-import com.example.domain.entities.Status
 import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 
